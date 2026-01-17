@@ -1,0 +1,50 @@
+
+name: flixflow
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flixflow_fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/opt/flix_flow/app
+      - movies_data:/opt/flix_flow/data
+      - ./backend/models:/opt/flix_flow/models
+      - vectordb_data:/opt/flix_flow/vectordb
+    restart: unless-stopped
+    networks:
+      - flixflow_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: flixflow_react
+    ports:
+      - "3040:3040"
+    volumes:
+      - ./frontend/src:/app/src:ro
+      - ./frontend/public:/app/public:ro
+    environment:
+      - REACT_APP_TMDB_KEY=${REACT_APP_TMDB_KEY}
+      - VITE_API_URL=http://localhost:000
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - api
+    networks:
+      - flixflow_network
+    restart: unless-stopped
+  
+
+volumes:
+  movies_data:
+    driver: local
+  vectordb_data:
+    driver: local
+
+networks:
+  flixflow_network:
+    driver: bridge

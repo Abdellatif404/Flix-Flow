@@ -1,0 +1,19 @@
+fastapi==0.128.0
+uvicorn[standard]==0.34.0
+python-multipart==0.0.21
+sqlalchemy==2.0.45 # For database interactions
+scikit-surprise==1.1.4 # For machine learning tasks
+# # scikit-learn==1.8.0 # For additional ML functionalities
+pandas==2.3.3 # For data manipulation
+numpy>=1.26.0,<2.0.0 # For numerical computations
+python-dotenv==1.0.1
+# requests==2.32.5 # For making HTTP requests
+
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.1.2+cpu
+torchvision==0.16.2+cpu
+
+chromadb>=0.5.0 # For vector database
+sentence-transformers==3.0.0 # For embedding generation
+transformers==4.40.0 # For NLP models
+huggingface-hub==0.24.0 # For model hub interactions
